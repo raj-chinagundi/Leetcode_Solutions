@@ -24,12 +24,12 @@ public:
             int rightHeight  = height(root->right);
            int lc= travel(root->left);
            int rc= travel(root->right);
-           return max(1+leftHeight+rightHeight,max(lc,rc));
+           return max(leftHeight+rightHeight,max(lc,rc));
         }
     
     int diameterOfBinaryTree(TreeNode* root) {
         int ans;
         ans=travel(root);
-        return ans-1;
+        return ans;
     }
 };
