@@ -18,10 +18,10 @@ public:
             temp=temp->next;
         }
         int mid=n/2;
-        ListNode* temp2=head;
+        temp=head;
         while(mid--){
-            temp2=temp2->next;
+            temp=temp->next;
         }
-        return temp2;
+        return temp;
     }
 };
