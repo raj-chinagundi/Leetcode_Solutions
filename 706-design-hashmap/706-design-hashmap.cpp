@@ -39,7 +39,7 @@ public:
     void remove(int key) {
         int i=hash(key);
         list<pair<int,int>> :: iterator it=search(key);
-        if(it!=m[i].end())m[i].erase(search(key));
+        if(it!=m[i].end())m[i].erase(it);
     }
 };
 
