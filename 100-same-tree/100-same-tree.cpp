@@ -15,8 +15,7 @@ bool ans(TreeNode* a,TreeNode*b){
     if((a!=NULL and b==NULL)||(a==NULL and b!=NULL)) return false;
     if(a==NULL and b==NULL) return true;
     if(a->val!=b->val)return false;
-    bool fin=ans(a->left,b->left)&&ans(a->right,b->right);
-    return fin;
+    return ans(a->left,b->left)&&ans(a->right,b->right);
 } 
     bool isSameTree(TreeNode* p, TreeNode* q) {
     return ans(p,q);
