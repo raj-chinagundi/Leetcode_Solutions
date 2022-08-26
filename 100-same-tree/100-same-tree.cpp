@@ -11,18 +11,14 @@
  */
 class Solution {
 public:
-bool solve(TreeNode* a,TreeNode*b)
-{
-   
-    if(a==NULL && b!=NULL || a!=NULL && b==NULL)
-        return false;
-    if(a==NULL && b==NULL)
-        return true;
-     if(a->val!=b->val)
-        return false;
-    return solve(a->left,b->left) && solve(a->right,b->right);
-}
+bool ans(TreeNode* a,TreeNode*b){
+    if((a!=NULL and b==NULL)||(a==NULL and b!=NULL)) return false;
+    if(a==NULL and b==NULL) return true;
+    if(a->val!=b->val)return false;
+    bool fin=ans(a->left,b->left)&&ans(a->right,b->right);
+    return fin;
+} 
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        return solve(p,q);
-    }
+    return ans(p,q);
+}
 };
