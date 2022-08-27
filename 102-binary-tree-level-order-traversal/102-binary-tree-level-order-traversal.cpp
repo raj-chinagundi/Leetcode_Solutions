@@ -21,9 +21,6 @@ public:
         
         while(!q.empty()){
             int size=q.size();
-            if(size==0){
-                return res;
-            }
             vector<int> ans;
             while(size>0){
                 TreeNode* temp=q.front();
