@@ -24,6 +24,8 @@ public:
                     q.push(v);
                 }
             }
+            if(vis[destination])
+                return vis[destination];
         }
         return vis[destination];
     }
