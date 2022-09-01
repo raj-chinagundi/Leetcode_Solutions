@@ -28,7 +28,7 @@ public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
         int n = image.size();
         int m = image[0].size();
-        
+        //color2 is old color
         int color2 = image[sr][sc];
         
         if(color2 == color)
