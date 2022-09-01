@@ -1,6 +1,7 @@
 class Solution {
 public:
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        //graph bnao pehle
         unordered_map<int,vector<int>> umap;
         for(auto x:edges){
             vector<int> temp=x;
@@ -16,6 +17,7 @@ public:
         while(!q.empty()){
             int u=q.front();
             q.pop();
+            //graph mai check kro fr
             for(int v:umap[u]){
                 if(vis[v]==false){
                     vis[v]=true;
