@@ -22,6 +22,6 @@ public:
                 }
             }
         }
-        return t[coins.size()][amount];        
+        return t[coins.size()][amount];
     }
 };
