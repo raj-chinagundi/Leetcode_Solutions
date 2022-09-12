@@ -7,8 +7,7 @@ public:
                 c++;
             }
         }
-        
-        if(tokens.size()==1 && tokens[0]>power || tokens.size()==0 ||c==tokens.size()){
+        if(tokens.size()==0 ||c==tokens.size()){
             return 0;
         }
         int n=tokens.size();
