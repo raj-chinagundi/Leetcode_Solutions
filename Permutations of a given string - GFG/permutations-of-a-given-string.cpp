@@ -5,36 +5,25 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
-        void stringsform(string S,string &ds, int freq[], set<string>&v){
-            if(ds.size()==S.size()){
-                v.insert(ds);
-                return ;
-            }
-            for(int i=0; i<S.size(); i++){
-                if(!freq[i]){
-                    ds+=S[i];
-                    freq[i]=1;
-                    stringsform(S,ds,freq,v);
-                    freq[i]=0;
-                    ds.pop_back();
-                }
-            }
-        }
 	public:
+	void solve(int ind,string &S,vector<string> &ans){
+	    if(ind==S.size()){
+	        ans.push_back(S);
+	        return;
+	    }
+	    for(int i=ind;i<S.size();i++){
+	        if(i>ind && S[i]==S[i-1])continue;
+	        swap(S[ind],S[i]);
+	        solve(ind+1,S,ans);
+	        swap(S[ind],S[i]);
+	    }
+	}
 		vector<string>find_permutation(string S)
 		{
 		    // Code here there
-		    string ds="";
-		    set<string>v;
-		    vector<string>ans;
-		    int n=S.size();
-		    int freq[n]={0};
-		    for(int i=0; i<n; i++) freq[i]=0;
-		    
-		    stringsform(S,ds,freq,v);
-		    for(auto it:v){
-		        ans.push_back(it);
-		    }
+		    vector<string> ans;
+		    sort(S.begin(),S.end());
+		    solve(0,S,ans);
 		    sort(ans.begin(),ans.end());
 		    return ans;
 		}
