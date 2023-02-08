@@ -17,7 +17,10 @@ public:
             int to_swap=nums[bp-1];
             for(int i=bp;i<=n;i++){
                 if(nums[i]-to_swap>0 && nums[i]-to_swap<mn){
-                    swap(nums[i],nums[bp-1]);
+                    int temp=nums[i];
+                    nums[i]=nums[bp-1];
+                    nums[bp-1]=temp;
+                    // swap(nums[i],nums[bp-1]);
                 }
             }
             sort(nums.begin()+bp,nums.end());
