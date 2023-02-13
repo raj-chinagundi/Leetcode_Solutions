@@ -11,13 +11,16 @@ public:
     int rob(vector<int>& nums) {
         int n=nums.size();
         vector<int> dp(n,0);
-        dp[0]=nums[0];
+        int prev=nums[0];
+        int prev2=0;//negative indx
         for(int i=1;i<n;i++){
             int loot=nums[i];
-            if(i>1)loot+=dp[i-2];
-            int noloot=0+dp[i-1];
-            dp[i]=max(loot,noloot);
+            if(i>1)loot+=prev2;
+            int noloot=0+prev;
+            int curri=max(loot,noloot);
+            prev2=prev;
+            prev=curri;
         }
-        return dp[n-1];
+        return prev;
     }
 };
