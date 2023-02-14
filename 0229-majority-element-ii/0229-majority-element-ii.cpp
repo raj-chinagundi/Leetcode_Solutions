@@ -1,17 +1,34 @@
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        unordered_map<int,int> mp;
-        set<int> s;
-        int n=nums.size();
-        for(int i=0;i<n;i++){
-            mp[nums[i]]++;
-            if(mp[nums[i]]>n/3)s.insert(nums[i]);
+        int n1=INT_MIN;
+        int n2=INT_MIN;
+        int count1=0;
+        int count2=0;
+        for(auto x:nums){
+            if(x==n1)count1++;
+            else if(x==n2)count2++;
+            else if(count1==0){
+                n1=x;
+                count1=1;
+            }
+            else if(count2==0){
+                n2=x;
+                count2=1;
+            }
+            else{
+                count1--;
+                count2--;
+            }
         }
-        vector<int> ans;
-        for(auto x:s){
-            ans.push_back(x);
+        int c1=0;int c2=0;
+        for(auto x:nums){
+            if(x==n1)c1++;
+            else if(x==n2)c2++;
         }
-        return ans;
+        vector<int> v;
+        if(c1>nums.size()/3)v.push_back(n1);
+        if(c2>nums.size()/3)v.push_back(n2);
+        return v;
     }
 };
