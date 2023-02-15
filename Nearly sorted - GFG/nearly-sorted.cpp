@@ -12,14 +12,12 @@ class Solution
         // Your code here
         vector<int> v;
         priority_queue<int,vector<int>,greater<int>> minh;
-        int curr=0;
         for(int i=0;i<num;i++){
             minh.push(arr[i]);
             if(minh.size()>K){
                 int x=minh.top();
                 v.push_back(x);
                 minh.pop();
-                curr++;
             }
         }
         while(minh.size()>0){
