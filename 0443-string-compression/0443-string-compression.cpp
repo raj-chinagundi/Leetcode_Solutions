@@ -20,8 +20,7 @@ public:
             }
             s=p;
         }
-        if(e==1)chars=chars;
-        else chars=ans;
+        if(e>1)chars=ans;
         return chars.size();
     }
 };
