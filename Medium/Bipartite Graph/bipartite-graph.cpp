@@ -5,22 +5,14 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    bool bfs(int v,vector<int> &color,vector<int>adj[]){
-        queue<pair<int,int>> q;
-        q.push({v,0});
-        while(!q.empty()){
-            int node=q.front().first;
-            int clr=q.front().second;
-            q.pop();
-            for(auto adjNode:adj[node]){
-                if(color[adjNode]==-1){
-                    color[adjNode]=!clr;
-                    q.push({adjNode,!clr});
-                }
-                else if(color[adjNode]==clr){
-                    return true;
-                }
+    bool dfs(int v,int curr_color,vector<int> &color,vector<int> adj[]){
+        color[v]=curr_color;//parent ka color
+        for(auto adjNode:adj[v]){
+            if(color[adjNode]==-1){
+                curr_color=!color[v];
+                if(dfs(adjNode,curr_color,color,adj))return true;
             }
+            else if(color[adjNode]==color[v])return true;
         }
         return false;
     }
@@ -29,7 +21,7 @@ public:
 	    vector<int> color(V,-1);
 	    for(int i=0;i<V;i++){
 	        if(color[i]==-1){
-	            if(bfs(i,color,adj)==true)return false;
+	            if(dfs(i,0,color,adj)==true)return false;
 	        }
 	    }
 	    return true;
