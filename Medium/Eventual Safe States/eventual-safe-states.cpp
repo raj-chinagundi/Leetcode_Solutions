@@ -10,36 +10,35 @@ using namespace std;
 
 class Solution {
   public:
-    bool cycleDFS(int s,vector<int> adj[],vector<int> &vis,vector<int> &pVis,vector<int> &safeNode){
-        vis[s]=1;
-        pVis[s]=1;
-        safeNode[s]=0;
-        for(auto n:adj[s]){
-            if(!vis[n]){
-                if(cycleDFS(n,adj,vis,pVis,safeNode)) return true;
-            }
-            else if(pVis[n])return true;
-        }
-        safeNode[s]=1;
-        pVis[s]=0;
-        return false;
-    }
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-        vector<int> ans;
-        vector<int> vis(V,0);
-        vector<int> pVis(V,0);
-        vector<int> safeNode(V,0);
-        for(int i=0;i<V;i++){
-                if(!vis[i]){
-                    cycleDFS(i,adj,vis,pVis,safeNode);
-            }
-        }
-        for(int i=0;i<safeNode.size();i++){
-            if(safeNode[i]==1){
-                ans.push_back(i);
-            }
-        }
-        return ans;
+        // code here
+        vector<int> radj[V];
+        vector<int> indegree(V,0);
+		for (int i = 0; i < V; i++) {
+			// i -> it (to) // it -> i
+			for (auto it : adj[i]) {
+    			radj[it].push_back(i);
+    			indegree[i]++;
+			}
+		}
+		queue<int> q;
+		for(int i=0;i<V;i++){
+		    if(indegree[i]==0)q.push(i);
+		}
+		vector<int> ans;
+		while(!q.empty()){
+		    int node=q.front();
+		    q.pop();
+		    ans.push_back(node);
+		    for(auto adjNode:radj[node]){
+		        indegree[adjNode]--;
+		        if(indegree[adjNode]==0){
+		            q.push(adjNode);
+		        }
+		    }
+		}
+		sort(ans.begin(),ans.end());
+		return ans;
     }
 };
 
