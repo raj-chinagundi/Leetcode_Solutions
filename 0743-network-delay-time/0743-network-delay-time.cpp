@@ -30,13 +30,10 @@ public:
             }
         }
         
-        int answer = 0;
-        for(int i = 1 ; i < dist.size() ; ++i){    
-            answer = max(answer , dist[i]);    // Distance of farthest node would be our answer.
+        int ans= 0;
+        for(int i=1;i<dist.size();i++){
+            ans=max(ans,dist[i]);
         }
-        if(answer == 1e9){      // Means we have missed some node.
-            return -1;
-        }
-        return answer;
+        return (ans==1e9)?-1:ans;
     }
 };
