@@ -17,16 +17,17 @@ class Solution {
             
             adj[u].push_back({v,wt});
         }
-        priority_queue<pipii,vector<pipii>,greater<pipii>> pq;
+        queue<pipii> pq;
         //{stops, {node, dist}}
         pq.push({0,{src,0}});
         vector<int> dist(n,1e9);
         dist[src]=0;
         
         while(!pq.empty()){
-            int node=pq.top().second.first;
-            int stops=pq.top().first;
-            int cost=pq.top().second.second;
+            auto it=pq.front();
+            int node=it.second.first;
+            int stops=it.first;
+            int cost=it.second.second;
             pq.pop();
             
             if(stops>K)continue;
