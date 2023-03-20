@@ -27,7 +27,7 @@ class Solution {
         // unvisited and the source cell as 0.
         vector<vector<int>> dist(n, vector<int>(m, 1e9));
         dist[source.first][source.second] = 0;
-        q.push({0, {source.first, source.second}});
+        q.push({0, source});
 
         // The following delta rows and delts columns array are created such that
         // each index represents each adjacent node that a cell may have 
