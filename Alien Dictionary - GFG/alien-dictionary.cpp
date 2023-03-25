@@ -12,46 +12,47 @@ class Solution{
     string findOrder(string dict[], int N, int K) {
         //code here
         vector<int> adj[K];
+        vector<int> indegree(K,0);
         for(int i=0;i<N-1;i++){
-            string curr=dict[i];
-            string nxt=dict[i+1];
-            for(int j=0;j<curr.size();j++){
-                if(curr[j]!=nxt[j]){
-                    int cnode=curr[j] - 'a';
-                    int nnode=nxt[j] - 'a';
-                    adj[cnode].push_back(nnode);
+            string word1=dict[i];
+            string word2=dict[i+1];
+            
+            int mn=min(word1.size(),word2.size());
+            
+            for(int j=0;j<mn;j++){
+                if(word1[j]!=word2[j]){
+                    int u=word1[j]-'a';
+                    int v=word2[j]-'a';
+                    indegree[v]++;
+                    adj[u].push_back(v);
                     break;
                 }
             }
         }
-        vector<int> indegree(K,0);
-        for(int i=0;i<K;i++){
-            for(auto it:adj[i]){
-                indegree[it]++;
-            }
-        }
         queue<int> q;
         for(int i=0;i<K;i++){
-            if(indegree[i]==0)q.push(i);
-        }
-        vector<char> topo;
-        while(!q.empty()){
-            int node=q.front();
-            char temp=node+'a';
-            q.pop();
-            topo.push_back(temp);
-            for(auto i:adj[node]){
-                indegree[i]--;
-                if(indegree[i]==0){
-                    q.push(i);
-                }
+            if(indegree[i]==0){
+                q.push(i);
             }
         }
-        string ans="";
-        for(auto x:topo){
-            ans.push_back(x);
+        
+        vector<char> ans;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            char ch=node+'a';
+
+            ans.push_back(ch);
+            for(auto it:adj[node]){
+                indegree[it]--;
+                if(indegree[it]==0)q.push(it);
+            }
         }
-        return ans;
+        string order="";
+        for(auto i:ans){
+            order.push_back(i);
+        }
+        return order;
     }
 };
 
