@@ -6,11 +6,12 @@ using namespace std;
 class Solution
 {
 	public:
-	void dfs(int s,stack<int> &st,vector<int> &vis,vector<int> adj[]){
+	//Function to return list containing vertices in Topological order. 
+	void dfs(int s,vector<int> &vis,stack<int> &st,vector<int> adj[]){
 	    vis[s]=1;
-	    for(auto n:adj[s]){
-	        if(!vis[n]){
-	            dfs(n,st,vis,adj);
+	    for(auto it:adj[s]){
+	        if(!vis[it]){
+	            dfs(it,vis,st,adj);
 	        }
 	    }
 	    st.push(s);
@@ -19,16 +20,17 @@ class Solution
 	{
 	    // code here
 	    vector<int> vis(V,0);
-	    vector<int> ans;
 	    stack<int> st;
 	    for(int i=0;i<V;i++){
 	        if(!vis[i]){
-	            dfs(i,st,vis,adj);
+	            dfs(i,vis,st,adj);
 	        }
 	    }
+	    vector<int> ans;
 	    while(!st.empty()){
-	        ans.push_back(st.top());
+	        int num=st.top();
 	        st.pop();
+	        ans.push_back(num);
 	    }
 	    return ans;
 	}
