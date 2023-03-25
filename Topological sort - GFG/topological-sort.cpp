@@ -6,16 +6,16 @@ using namespace std;
 class Solution
 {
 	public:
-	void dfs(int node,vector<int> &vis,stack<int> &st,vector<int> adj[]){
-	    vis[node]=1;
-	    for(auto i:adj[node]){
-	        if(!vis[i]){
-	            dfs(i,vis,st,adj);
+	//Function to return list containing vertices in Topological order. 
+	void dfs(int s,vector<int> &vis,stack<int> &st,vector<int> adj[]){
+	    vis[s]=1;
+	    for(auto it:adj[s]){
+	        if(!vis[it]){
+	            dfs(it,vis,st,adj);
 	        }
 	    }
-	    st.push(node);
+	    st.push(s);
 	}
-	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
 	    // code here
@@ -28,8 +28,9 @@ class Solution
 	    }
 	    vector<int> ans;
 	    while(!st.empty()){
-	        ans.push_back(st.top());
+	        int num=st.top();
 	        st.pop();
+	        ans.push_back(num);
 	    }
 	    return ans;
 	}
