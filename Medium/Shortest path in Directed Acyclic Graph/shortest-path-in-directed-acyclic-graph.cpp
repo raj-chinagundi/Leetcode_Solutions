@@ -8,15 +8,6 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-     void topo(int node,vector<int> &vis,stack<int> &st,vector<pair<int,int>> adj[]){
-         vis[node]=1;
-         for(auto it:adj[node]){
-             if(!vis[it.first]){
-                 topo(it.first,vis,st,adj);
-             }
-         }
-         st.push(node);
-     }
      vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
         // code here
         vector<pair<int,int>> adj[N];
@@ -27,31 +18,32 @@ class Solution {
             
             adj[u].push_back({v,wt});
         }
-        vector<int> vis(N,0);
         vector<int> dist(N,1e9);
+        queue<pair<int,int>> q;
+        //dist,node
+        q.push({0,0});
         dist[0]=0;
-        stack<int> st;
-        for(int i=0;i<N;i++){
-            if(!vis[i]){
-                topo(i,vis,st,adj);
-            }
-        }
-        while(!st.empty()){
-            int node=st.top();
-            st.pop();
+        
+        while(!q.empty()){
+            int node=q.front().second;
+            int dis=q.front().first;
+            q.pop();
+            
             for(auto it:adj[node]){
-                int v=it.first;
+                int adjN=it.first;
                 int wt=it.second;
-                if(dist[node]+wt<dist[v]){
-                    dist[v]=dist[node]+wt;
+                
+                if(dis+wt<dist[adjN]){
+                    dist[adjN]=dis+wt;
+                    q.push({dist[adjN],adjN});
                 }
             }
         }
-          for (int i = 0; i < N; i++) {
-            if (dist[i] == 1e9) dist[i] = -1;
-          }
-        return dist;
+        for(int i=0;i<N;i++){
+            if(dist[i]==1e9)dist[i]=-1;
+        }
         
+        return dist;
     }
 };
 
