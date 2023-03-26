@@ -16,22 +16,26 @@ class Solution
         priority_queue<pii,vector<pii>,greater<pii>> pq;
         //dist,node
         vector<int> dist(V,1e9);
-        pq.push({0,S});
+        set<pair<int,int>> st;
+        st.insert({0,S});
         dist[S]=0;
-        while(!pq.empty()){
-            int node=pq.top().second;
-            int d=pq.top().first;
-            pq.pop();
-            for(auto it:adj[node]){
-                int v=it[0];
-                int wt=it[1];
-                if(d+wt<dist[v]){
-                    dist[v]=d+wt;
-                    pq.push({d+wt,v});
+        while(!st.empty()){
+            auto it=*st.begin();
+            int node=it.second;
+            int dis=it.first;
+            st.erase(it);
+            for(auto x:adj[node]){
+                int adjN=x[0];
+                int wt=x[1];
+                if(dis+wt<dist[adjN]){
+                    if(dist[adjN]!=1e9){
+                        st.erase({dist[adjN],adjN});
+                    }
+                    dist[adjN]=dis+wt;
+                    st.insert({dist[adjN],adjN});
                 }
             }
         }
-        
         return dist;
     }
 };
