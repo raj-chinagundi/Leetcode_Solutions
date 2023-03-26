@@ -1,63 +1,39 @@
 class Solution {
 public:
     #define ll long long
+    #define pii pair<ll,ll>
     int countPaths(int n, vector<vector<int>>& roads) {
-        // Creating an adjacency list for the given graph.
-        vector<pair<ll,ll>> adj[n];
-        for (auto it : roads)
-        {
-            adj[it[0]].push_back({it[1], it[2]});
-            adj[it[1]].push_back({it[0], it[2]});
+        vector<pii> adj[n];
+        ll mod=(ll)1e9+7;
+        ll inf=(ll)1e15;
+        vector<ll> dist(n,inf),ways(n,0);
+        ways[0]=1;// way to reach src point
+        dist[0]=0;
+        for(auto x:roads){
+            adj[x[0]].push_back({x[1],x[2]});
+            adj[x[1]].push_back({x[0],x[2]});
         }
-
-        // Defining a priority queue (min heap). 
-        priority_queue<pair<ll,ll>,
-                       vector<pair<ll,ll>>, greater<pair<ll,ll>>> pq;
-
-        // Initializing the dist array and the ways array
-        // along with their first indices.
-        vector<ll> dist(n, 1e15), ways(n, 0);
-        dist[0] = 0;
-        ways[0] = 1;
-        pq.push({0, 0});
-
-        // Define modulo value
-        
-        ll mod = (ll)(1e9+7);
-
-        // Iterate through the graph with the help of priority queue
-        // just as we do in Dijkstra's Algorithm.
-        while (!pq.empty())
-        {
-            ll dis = pq.top().first;
-            ll node = pq.top().second;
+        priority_queue<pii,vector<pii>,greater<pii>> pq;
+        pq.push({0,0});
+        while(!pq.empty()){
+            ll node=pq.top().second;
+            ll dis=pq.top().first;
             pq.pop();
-
-            for (auto it : adj[node])
-            {
-                ll adjNode = it.first;
-                ll edW = it.second;
-
-                // This ‘if’ condition signifies that this is the first
-                // time we’re coming with this short distance, so we push
-                // in PQ and keep the no. of ways the same.
-                if (dis + edW < dist[adjNode])
-                {
-                    dist[adjNode] = dis + edW;
-                    pq.push({dis + edW, adjNode});
-                    ways[adjNode] = ways[node];
+            for(auto it:adj[node]){
+                ll v=it.first;
+                ll wt=it.second;
+                
+                if(dis+wt<dist[v]){
+                    dist[v]=dis+wt;
+                    ways[v]=ways[node]%mod;
+                    pq.push({dist[v],v});
                 }
-
-                // If we again encounter a node with the same short distance
-                // as before, we simply increment the no. of ways.
-                else if (dis + edW == dist[adjNode])
-                {
-                    ways[adjNode] = (ways[adjNode] + ways[node]) % mod;
+                
+                else if(dis+wt==dist[v]){
+                    ways[v]=(ways[v]+ways[node])%mod;
                 }
             }
         }
-        // Finally, we return the no. of ways to reach
-        // (n-1)th node modulo 10^9+7.
-        return ways[n - 1] % mod;
+        return (dist[n-1]==1e15)?-1:ways[n-1]%mod;
     }
 };
