@@ -8,33 +8,30 @@ class Solution
 	public:
 	//Function to find the shortest distance of all the vertices
     //from the source vertex S.
+    #define pii pair<int,int>
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
-        set<pair<int,int>> st;
-        st.insert({0,S});
-        vector<int> dist(V,1e9);
-        dist[S]=0;
-        while(!st.empty()){
-            auto it = *(st.begin()); 
-            int node = it.second; 
-            int dis = it.first; 
-            st.erase(it); 
-            
-            for(auto adjNode:adj[node]){
-                int v=adjNode[0];
-                int wt=adjNode[1];
-                if(dis+wt<dist[v]){
-                    if(dist[v]!=1e9){
-                        st.erase({dist[v],v});
-                    }
-                    
-                    dist[v]=dis+wt;
-                    st.insert({dist[v],v});                    
-                }
 
+        priority_queue<pii,vector<pii>,greater<pii>> pq;
+        //dist,node
+        vector<int> dist(V,1e9);
+        pq.push({0,S});
+        dist[S]=0;
+        while(!pq.empty()){
+            int node=pq.top().second;
+            int d=pq.top().first;
+            pq.pop();
+            for(auto it:adj[node]){
+                int v=it[0];
+                int wt=it[1];
+                if(d+wt<dist[v]){
+                    dist[v]=d+wt;
+                    pq.push({d+wt,v});
+                }
             }
         }
+        
         return dist;
     }
 };
