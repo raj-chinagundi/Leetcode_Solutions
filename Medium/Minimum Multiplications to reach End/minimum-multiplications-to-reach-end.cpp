@@ -9,29 +9,29 @@ using namespace std;
 // User function Template for C++
 
 class Solution {
-#define pii pair<int,int>
-const int mod=1e5;
   public:
+    const int mod=1e5;
     int minimumMultiplications(vector<int>& arr, int start, int end) {
         // code here
-        priority_queue<pii,vector<pii>,greater<pii>>pq;
         vector<int> dist(1e5,1e9);
         dist[start]=0;
-        //steps,node
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
         pq.push({0,start});
+        
         while(!pq.empty()){
-            int steps=pq.top().first;
             int node=pq.top().second;
+            int steps=pq.top().first;
             pq.pop();
             
             if(node==end){
                 return steps;
             }
-            for(auto x:arr){
-                int d=(node*x)%mod;
-                if(steps+1<dist[d]){
-                    dist[d]=steps+1;
-                    pq.push({dist[d],d});
+            
+            for(auto it:arr){
+                int num=(node*it)%mod;
+                if(steps+1<dist[num]){
+                    dist[num]=steps+1;
+                    pq.push({dist[num],num});
                 }
             }
         }
