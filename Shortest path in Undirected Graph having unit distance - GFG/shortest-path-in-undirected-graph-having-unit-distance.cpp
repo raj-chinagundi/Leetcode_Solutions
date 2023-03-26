@@ -10,34 +10,35 @@ class Solution {
   public:
     vector<int> shortestPath(vector<vector<int>>& edges, int N,int M, int src){
         // code here
+        vector<int> dist(N,1e9);
         vector<int> adj[N];
+        
         for(auto x:edges){
             int u=x[0];
             int v=x[1];
-            
             adj[u].push_back(v);
             adj[v].push_back(u);
         }
-        queue<pair<int,int>> q;
-        vector<int> dist(N,1e9);
-        q.push({src,0});
+        //bfs search from source , keep increasing d
+        queue<int> q;
+        q.push(src);
         dist[src]=0;
         while(!q.empty()){
-            int node=q.front().first;
-            int d=q.front().second;
+            int node=q.front();
             q.pop();
+            
             for(auto it:adj[node]){
-                if(d+1<dist[it]){
-                    dist[it]=d+1;
-                    q.push({it,d+1});
+                if(dist[node]+1<dist[it]){
+                    dist[it]=dist[node]+1;
+                    q.push(it);
                 }
             }
         }
+        
         for(int i=0;i<N;i++){
-            if(dist[i]==1e9){
-                dist[i]=-1;
-            }
+            if(dist[i]==1e9)dist[i]=-1;
         }
+        
         return dist;
     }
 };
