@@ -6,35 +6,43 @@ using namespace std;
 class Solution
 {
 	public:
+	#define pipii pair<int,pair<int,int>>
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here
+        //dist,node,parent
         vector<int> vis(V,0);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        //wt,node
-        pq.push({0,0});
+        vector<pair<int,int>> mst;
+        priority_queue<pipii,vector<pipii>,greater<pipii>> pq;
+        pq.push({0,{0,-1}});
         int sum=0;
         while(!pq.empty()){
             auto it=pq.top();
-            int node=it.second;
-            int wt=it.first;
+            int node=it.second.first;
+            int parent=it.second.second;
+            int pwt=it.first;
             pq.pop();
             
-            if(vis[node])continue;
+            if(vis[node]==1)continue;
             
             vis[node]=1;
-            sum+=wt;
-            
+            sum+=pwt;
+            if(parent!=-1)mst.push_back({parent,node});
             for(auto x:adj[node]){
-                int adjN=x[0];
-                int ewt=x[1];
+                int adjNode=x[0];
+                int edwt=x[1];
                 
-                if(!vis[adjN]){
-                    pq.push({ewt,adjN});
+                if(!vis[adjNode]){
+                    pq.push({edwt,{adjNode,node}});
                 }
             }
         }
+        
+        // for(auto x:mst){
+        //     cout<<x.first<<" "<<x.second<<endl;
+        //     cout<<endl;
+        // }
         return sum;
     }
 };
