@@ -49,6 +49,6 @@ public:
             if(ds.findP(i)==i)count++;
         }
         int num_edges=connections.size();
-        return (num_edges+1>=n)?count-1:-1;
+        return (num_edges<n-1)?-1:count-1;
     }
 };
