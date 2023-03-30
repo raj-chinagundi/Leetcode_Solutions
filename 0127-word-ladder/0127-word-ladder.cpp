@@ -8,17 +8,18 @@ public:
         
         while(!q.empty()){
             string word=q.front().first;
-            int lvl=q.front().second;
+            int d=q.front().second;
             q.pop();
             
-            if(word==endWord)return lvl;
-            
+            if(word==endWord){
+                return d;
+            }
             for(int i=0;i<word.size();i++){
                 char original=word[i];
                 for(char ch='a';ch<='z';ch++){
                     word[i]=ch;
                     if(st.count(word)>0){
-                        q.push({word,lvl+1});
+                        q.push({word,d+1});
                         st.erase(word);
                     }
                 }
