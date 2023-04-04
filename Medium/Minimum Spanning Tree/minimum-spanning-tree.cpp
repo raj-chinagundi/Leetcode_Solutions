@@ -3,6 +3,41 @@
 using namespace std;
 
 // } Driver Code Ends
+class DisjointSet{
+    public:
+        vector<int> rank,parent;
+    
+        DisjointSet(int n){
+            rank.resize(n+1,0);
+            parent.resize(n+1,0);
+            for(int i=0;i<=n;i++){
+                parent[i]=i;
+            }
+        }
+        
+        int findP(int u){
+            if(u==parent[u]){
+                return u;
+            }
+            return parent[u]=findP(parent[u]);//pcompress
+        }
+        
+        void unionByRank(int u,int v){
+            int upu=findP(u);
+            int upv=findP(v);
+            if(upu==upv)return;
+            if(rank[upu]>rank[upv]){
+                parent[upv]=upu;
+            }
+            else if(rank[upv]>rank[upu]){
+                parent[upu]=upv;
+            }
+            else{
+                parent[upu]=upv;
+                rank[upv]++;
+            }
+        }
+};
 class Solution
 {
 	public:
@@ -11,39 +46,30 @@ class Solution
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here
-        //dist,node,parent
-        vector<int> vis(V,0);
-        vector<pair<int,int>> mst;
         priority_queue<pipii,vector<pipii>,greater<pipii>> pq;
-        pq.push({0,{0,-1}});
-        int sum=0;
-        while(!pq.empty()){
-            auto it=pq.top();
-            int node=it.second.first;
-            int parent=it.second.second;
-            int pwt=it.first;
-            pq.pop();
-            
-            if(vis[node]==1)continue;
-            
-            vis[node]=1;
-            sum+=pwt;
-            if(parent!=-1)mst.push_back({parent,node});
-            for(auto x:adj[node]){
-                int adjNode=x[0];
-                int edwt=x[1];
+        DisjointSet ds(V);
+        for(int i=0;i<V;i++){
+            for(auto x:adj[i]){
+                int v=x[0];
+                int wt=x[1];
+                int node=i;
                 
-                if(!vis[adjNode]){
-                    pq.push({edwt,{adjNode,node}});
-                }
+                pq.push({wt,{node,v}});
             }
         }
-        
-        // for(auto x:mst){
-        //     cout<<x.first<<" "<<x.second<<endl;
-        //     cout<<endl;
-        // }
-        return sum;
+        int mst=0;
+        while(!pq.empty()){
+            int u=pq.top().second.first;
+            int v=pq.top().second.second;
+            int wt=pq.top().first;
+            pq.pop();
+            
+            if(ds.findP(u)!=ds.findP(v)){
+                mst+=wt;
+                ds.unionByRank(u,v);
+            }
+        }
+        return mst;
     }
 };
 
