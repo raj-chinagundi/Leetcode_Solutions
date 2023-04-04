@@ -17,11 +17,11 @@ class Solution
 	    }
 	    st.push(node);
 	}
-	void dfs(int node,stack<int>&st,vector<int> &vis,vector<vector<int>>& r_adj){
+	void dfs(int node,stack<int>&st,vector<int> &vis,vector<vector<int>>& adj){
 	    vis[node]=1;
-	    for(auto x:r_adj[node]){
+	    for(auto x:adj[node]){
 	        if(!vis[x]){
-	            dfs(x,st,vis,r_adj);
+	            dfs(x,st,vis,adj);
 	        }
 	    }
 	}
