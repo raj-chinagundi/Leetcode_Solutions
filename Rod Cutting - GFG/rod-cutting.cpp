@@ -12,10 +12,11 @@ class Solution{
   public:
   int solve(int ind,int remaining_l,int price[],int wt[],vector<vector<int>> &dp){
           if(ind==0){
-              if(remaining_l%wt[ind]==0){
-                  return price[0]*(remaining_l/wt[ind]);
-              }
-              return 0;
+            //   if(remaining_l%wt[ind]==0){
+            //       return price[0]*(remaining_l/wt[ind]);
+            //   }
+            return remaining_l*price[0];
+            //   return 0;
           }
           if(dp[ind][remaining_l]!=-1)return dp[ind][remaining_l];
           int nottake=0+solve(ind-1,remaining_l,price,wt,dp);
