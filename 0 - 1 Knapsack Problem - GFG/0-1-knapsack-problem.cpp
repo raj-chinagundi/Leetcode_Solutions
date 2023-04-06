@@ -9,12 +9,15 @@ class Solution
     public:
     //Function to return max value that can be put in knapsack of capacity W.
     int solve(int i,int W,int wt[],int val[],vector<vector<int>> &dp){
-        if(i<0)return 0;
+        if(i==0){
+            if(wt[0]<=W)return val[0];
+            return 0;
+        }
         
         if(dp[i][W]!=-1)return dp[i][W];
         
         int notpick=0+solve(i-1,W,wt,val,dp);
-        int pick=0;
+        int pick=-1e9;//if value is very large but cap doesnt allow u to put in bag
         if(wt[i]<=W){
             pick=val[i]+solve(i-1,W-wt[i],wt,val,dp);
         }
