@@ -11,7 +11,7 @@ public:
 	// calculate the maximum sum with out adjacent
 	int f(int n,int *arr){
     vector<int> dp(n,-1);	    
-    dp[0]= arr[0];
+    int p
     
     for(int i=1 ;i<n; i++){
         int pick = arr[i];
