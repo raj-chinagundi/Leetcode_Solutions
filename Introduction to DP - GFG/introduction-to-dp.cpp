@@ -20,14 +20,16 @@ class Solution {
     long long int bottomUp(int n) {
         // code here
         vector<int> dp(1001,-1);
-        dp[0]=0;
-        dp[1]=1;
+        int prev2=0;
+        int prev=1;
         
         for(int i=2 ; i<=n ; i++){
-            dp[i]=(dp[i-1]+dp[i-2])%MOD;
+            int curri=(prev+prev2)%MOD;
+            prev2=prev;
+            prev=curri;
         }
         
-        return dp[n];
+        return prev;
     }
 };
 
