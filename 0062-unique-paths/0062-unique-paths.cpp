@@ -12,13 +12,13 @@ public:
 //     }
     int uniquePaths(int m, int n) {
         // return f(m-1,n-1,m,n);
-        vector<vector<int>> dp (m , vector<int>(n,0));
+        vector<int> prev(n,0);
           for(int i=0; i<m ;i++){
+              vector<int> curr(n,0);
               for(int j=0; j<n; j++){
-
                   //base condition
                   if(i==0 && j==0){
-                      dp[i][j]=1;
+                      curr[j]=1;
                       continue;
                   }
 
@@ -26,14 +26,15 @@ public:
                   int left = 0;
 
                   if(i>0) 
-                    up = dp[i-1][j];
+                    up = prev[j];
                   if(j>0)
-                    left = dp[i][j-1];
+                    left = curr[j-1];
 
-                  dp[i][j] = up+left;
+                  curr[j] = up+left;
               }
+              prev=curr;
           }
 
-          return dp[m-1][n-1];
+          return prev[n-1];
     }
 };
