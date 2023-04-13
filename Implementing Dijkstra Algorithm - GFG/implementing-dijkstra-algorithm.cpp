@@ -21,20 +21,24 @@ class Solution
             }
         }
         vector<int> dist(V,1e9);
-        priority_queue<pii,vector<pii>,greater<pii>> pq;
-        pq.push({0,S});
+        set<pii> st;
+        st.insert({0,S});
         dist[S]=0;
-        while(!pq.empty()){
-            int node=pq.top().second;
-            int dis=pq.top().first;
-            pq.pop();
+        while(!st.empty()){
+            auto it=*st.begin();
+            int node=it.second;
+            int dis=it.first;
+            st.erase(it);
             
             for(auto it:adj2[node]){
                 int v=it.first;
                 int wt=it.second;
                 if(dis+wt<dist[v]){
+                    if(dist[v]!=1e9){
+                        st.erase({dist[v],v});
+                    }
                     dist[v]=dis+wt;
-                    pq.push({dist[v],v});
+                    st.insert({dist[v],v});
                 }
             }
         }
