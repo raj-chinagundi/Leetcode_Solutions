@@ -9,34 +9,52 @@ using namespace std;
 
 class Solution {
   public:
-  void dfs(int i,int j,int sr,int sc,vector<pair<int,int>>&src,vector<vector<int>>& grid){
+    void bfs(int i,int j,vector<vector<int>>& grid,vector<vector<int>>& vis,vector<pair<int,int>> &temp){
         int n=grid.size();
         int m=grid[0].size();
-      if(i<0 || j<0 || i>=n ||j>=m ||grid[i][j]==0)return;
-      src.push_back({i-sr,j-sc});
-      grid[i][j]=0;
-      
-      dfs(i+1,j,sr,sc,src,grid);
-      dfs(i,j+1,sr,sc,src,grid);
-      dfs(i-1,j,sr,sc,src,grid);
-      dfs(i,j-1,sr,sc,src,grid);
-  }
+        queue<pair<int,int>> q; 
+        int dr[]={-1,0,1,0};
+        int dc[]={0,-1,0,1};
+        
+        q.push({i,j});
+        vis[i][j]=1;
+
+        
+        while(!q.empty()){
+            int row=q.front().first;
+            int col=q.front().second;
+            q.pop();
+            
+            temp.push_back({row-i,col-j});
+            
+            for(int i=0;i<4;i++){
+                int nrow=row+dr[i];
+                int ncol=col+dc[i];
+                
+                if(nrow>=0 and ncol>=0 and nrow<n and ncol<m and grid[nrow][ncol]==1 and !vis[nrow][ncol]){
+                    vis[nrow][ncol]=1;
+                    q.push({nrow,ncol});
+                }
+            }
+        }        
+    }
     int countDistinctIslands(vector<vector<int>>& grid) {
         // code here
         int n=grid.size();
         int m=grid[0].size();
-        // code here
         set<vector<pair<int,int>>> st;
+        vector<vector<int>> vis(n,vector<int>(m,0));
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                vector<pair<int,int>> src;
-                if(grid[i][j]==1){
-                    dfs(i,j,i,j,src,grid);
-                    st.insert(src);
+                vector<pair<int,int>> temp;
+                if(grid[i][j]==1 and vis[i][j]==0){
+                    bfs(i,j,grid,vis,temp);
+                    st.insert(temp);
                 }
             }
         }
         return st.size();
+        
     }
 };
 
