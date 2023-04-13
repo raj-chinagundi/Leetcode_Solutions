@@ -8,31 +8,33 @@ class Solution
 	public:
 	//Function to find the shortest distance of all the vertices
     //from the source vertex S.
-    #define pii pair<int,int>
+    #define pii pair<int,int> 
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
-
-        priority_queue<pii,vector<pii>,greater<pii>> pq;
-        //dist,node
-        vector<int> dist(V,1e9);
-        set<pair<int,int>> st;
-        st.insert({0,S});
-        dist[S]=0;
-        while(!st.empty()){
-            auto it=*st.begin();
-            int node=it.second;
-            int dis=it.first;
-            st.erase(it);
-            for(auto x:adj[node]){
-                int adjN=x[0];
+        vector<pii> adj2[V];
+        for(int i=0;i<V;i++){
+            for(auto x:adj[i]){
+                int v=x[0];
                 int wt=x[1];
-                if(dis+wt<dist[adjN]){
-                    if(dist[adjN]!=1e9){
-                        st.erase({dist[adjN],adjN});
-                    }
-                    dist[adjN]=dis+wt;
-                    st.insert({dist[adjN],adjN});
+                adj2[i].push_back({v,wt});               
+            }
+        }
+        vector<int> dist(V,1e9);
+        priority_queue<pii,vector<pii>,greater<pii>> pq;
+        pq.push({0,S});
+        dist[S]=0;
+        while(!pq.empty()){
+            int node=pq.top().second;
+            int dis=pq.top().first;
+            pq.pop();
+            
+            for(auto it:adj2[node]){
+                int v=it.first;
+                int wt=it.second;
+                if(dis+wt<dist[v]){
+                    dist[v]=dis+wt;
+                    pq.push({dist[v],v});
                 }
             }
         }
