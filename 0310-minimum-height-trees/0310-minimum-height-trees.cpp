@@ -20,29 +20,26 @@ public:
                 indeg[v]++;
             }
         
-        queue<int>q;
+        queue<int> q;
         for(int i=0;i<n;i++){
             if(indeg[i]==1){
-                 q.push(i);
-                 indeg[i]--;
+                q.push(i);
             }
         }
-
-        vector<int>ans;
+        vector<int> ans;
         while(!q.empty()){
-             int len=q.size();
-             ans.clear();
-             for(int i=0;i<len;i++){
-                 int node=q.front();
-                 ans.push_back(node);
-                 q.pop();
-                 for(auto it:adj[node]){
-                     indeg[it]--;
-                     if(indeg[it]==1){
-                         q.push(it);
-                     }
-                 }
-             }
+            int size=q.size();
+            ans.clear();
+            while(size>0){
+                int node=q.front();
+                ans.push_back(node);
+                q.pop();
+                for(auto it:adj[node]){
+                    indeg[it]--;
+                    if(indeg[it]==1)q.push(it);
+                }
+                size--;
+            }
         }
        
        return ans;
