@@ -23,17 +23,16 @@ public:
                     string curr_word = "";
                     int row = i;
                     int col = j;
-                    bool match = true;
                     while (row >= 0 && row < n && col >= 0 && col < m && curr_word.length() < word.length()) {
                         curr_word += grid[row][col];
                         if (curr_word[curr_word.length() - 1] != word[curr_word.length() - 1]) {
-                            match = false;
                             break;
                         }
+                        //keep moving in same kth direction
                         row += dr[k];
                         col += dc[k];
                     }
-                    if (match && curr_word == word) {
+                    if (curr_word == word) {
                         ans.push_back({i, j});
                         break;
                     }
